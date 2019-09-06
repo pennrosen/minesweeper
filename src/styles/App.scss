@@ -1,0 +1,72 @@
+@import "./reset";
+
+// colors
+$lightgray: #bdbdbd;
+$darkgray: #7b7b7b; 
+$white: #fff;
+$black: #000;
+$red: #ff0000;
+
+body {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1em;
+  background-color: $lightgray;
+  $shadow-size: 2px;
+  $shadow-size-neg: -2px;
+  box-shadow: inset $shadow-size $shadow-size 0px 0px $white, inset $shadow-size-neg $shadow-size-neg 0px 0px $darkgray; 
+
+  .game-info {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    padding: 1em;
+    box-shadow: inset $shadow-size-neg $shadow-size-neg 0px 0px $darkgray, inset $shadow-size $shadow-size 0px 0px $white;
+    
+    div {
+      padding: 0 1em;
+    }
+
+  }
+  
+  .game-grid {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin: 1em 0;
+    box-shadow: inset $shadow-size-neg $shadow-size-neg 0px 0px $darkgray, inset $shadow-size $shadow-size 0px 0px $white;
+    width: 100%;
+
+    tr {
+      width: 100%;
+      display: flex;
+    }
+
+    td {
+      box-shadow: inset $shadow-size-neg $shadow-size-neg 0px 0px $darkgray, inset $shadow-size $shadow-size 0px 0px $white;
+      padding: 6.5px;
+      // width: 11.1%; // tables a poor choice?
+      cursor: pointer;
+    }
+  }
+
+}
+
+@import "../components/grid/grid.scss";
+@import "../components/resetButton/resetButton.scss";
+@import "../components/mineCounter/mineCounter.scss";
+@import "../components/timeCounter/timeCounter.scss";
