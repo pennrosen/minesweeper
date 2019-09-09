@@ -2,32 +2,36 @@ import React from "react"
 
 function Grid(props) {
 
-    let grid = Array(props.gridSize).fill(Array(props.gridSize))
+    const { rows, columns, mines, grid } = props
 
-    let gameBoard = grid.map(row => {
+    const cellStyle = (cell) => ({
+        border: "1px solid #7b7b7b",
+        backgroundColor: cell.isMine ? "red" : "#bdbdbd",
+        boxShadow: "none" 
+    })
+
+    let gameBoard = grid.map(cell => {
+
         return (
-            <tr 
-                className={row.length}
-                rowNumber={row.length}
+            <div 
+                className={"cell " + (cell.col === columns ? "last-col" : "") }
+                row={cell.row}
+                col={cell.col}
+                key={cell.key}
+                style={!cell.hidden ? cellStyle(cell) : null}
+                // onClick={() => handleCellClick(cell)}
+                onClick={event => props.handleCellClick(event, cell)}
             >
-                {
-                    grid.map(col => {
-                        return (
-                            <td className={col}>
-                               {props.gridSize} 
-                            </td>
-                        )
-                    }) 
-                }
-            </tr>
+                {/* {cell.key} */}
+                {cell.isMine ? "X" : ""}
+            </div> 
         )
-
     })
 
     return(
-        <div>
+        <section className="game-grid">
             {gameBoard}
-        </div>
+        </section>
     )
 }
 

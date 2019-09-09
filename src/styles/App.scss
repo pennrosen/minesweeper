@@ -16,7 +16,7 @@ body {
   height: 100vh;
 }
 
-.App {
+.minesweeper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,25 +43,30 @@ body {
   }
   
   .game-grid {
-    display: flex; 
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+    display: grid;
+    place-items: stretch;
+    grid-template-rows: repeat(9, 1fr);
+    grid-template-columns: repeat(9, 1fr);
     margin: 1em 0;
     box-shadow: inset $shadow-size-neg $shadow-size-neg 0px 0px $darkgray, inset $shadow-size $shadow-size 0px 0px $white;
-    width: 100%;
+    width: 20vw;
+    height: 20vw;
 
-    tr {
-      width: 100%;
-      display: flex;
-    }
-
-    td {
+    .cell {
       box-shadow: inset $shadow-size-neg $shadow-size-neg 0px 0px $darkgray, inset $shadow-size $shadow-size 0px 0px $white;
-      padding: 6.5px;
-      // width: 11.1%; // tables a poor choice?
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
+
+      &:active {
+        box-shadow: none;
+        box-shadow: inset $shadow-size $shadow-size 0px 0px $darkgray; 
+        // background-color: $darkgray;
+      }
+
     }
+
   }
 
 }

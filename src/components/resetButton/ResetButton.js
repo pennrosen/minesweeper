@@ -12,7 +12,7 @@ function ResetButton(props) {
             <img 
                 src={faceHappy} 
                 alt={":)"}
-                onClick={event => props.startGame(event)}
+                onClick={event => props.resetGame(event)}
                 />
         </div>
     )
