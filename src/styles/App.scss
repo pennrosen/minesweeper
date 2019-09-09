@@ -73,6 +73,10 @@ body {
         // background-color: $darkgray;
       }
 
+      &.flagged:after {
+        content: "🚩"; 
+      }
+
     }
 
   }

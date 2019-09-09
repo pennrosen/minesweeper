@@ -21,18 +21,13 @@ class App extends Component {
     this.resetGame = this.resetGame.bind(this)
     this.handleCellMouseDown = this.handleCellMouseDown.bind(this)
     this.handleCellClick = this.handleCellClick.bind(this)
+    this.handleFlag = this.handleFlag.bind(this)
   }
 
   componentDidMount() {
     this.setState({ 
       loading: false
     })
-    this.initGrid()
-  }
-
-  resetGame(event) {
-    event.preventDefault()
-    console.log("game started!")
     this.initGrid()
   }
 
@@ -49,10 +44,10 @@ class App extends Component {
                 key: grid.length + 1, 
                 row: row,
                 col: col,
-                hidden: true,
+                isHidden: true,
                 isMine: false,
+                isFlagged: false,
                 adjacentMines: 0,
-                flagged: false,
                 value: ""
             })
         }
@@ -76,10 +71,33 @@ class App extends Component {
 
   }
 
+  resetGame(event) {
+    event.preventDefault()
+    console.log("game started!")
+    this.initGrid()
+  }
+
+  handleFlag(event, cell) {
+      event.preventDefault()
+      let newMinesFlagged = this.state.minesFlagged
+      let newGrid = this.state.grid
+      if (this.state.grid[cell.key - 1].isFlagged) {
+        newGrid[cell.key - 1].isFlagged = false
+        newMinesFlagged--
+      } else {
+        newGrid[cell.key - 1].isFlagged = true
+        newMinesFlagged++
+      }
+      this.setState({
+          grid: newGrid,
+          minesFlagged: newMinesFlagged
+      })
+  }
+
   handleCellMouseDown(event, cell) {
       event.preventDefault()
       let newGameStatus = this.state.gameStatus
-      if (cell.hidden) {newGameStatus = "selecting" }
+      if (cell.isHidden) {newGameStatus = "selecting" }
       this.setState({
           gameStatus: newGameStatus 
       })
@@ -99,7 +117,7 @@ class App extends Component {
       }
 
       let newGrid = this.state.grid
-      newGrid[cell.key - 1].hidden = false
+      newGrid[cell.key - 1].isHidden = false
       newGrid[cell.key - 1].value = cell.key
       this.setState({
           grid: newGrid,
@@ -112,6 +130,7 @@ class App extends Component {
       <article className="minesweeper">
         <section className="game-info">
           <MineCounter 
+            mines={this.state.mines} 
             minesFlagged={this.state.minesFlagged} 
           />
           <ResetButton 
@@ -130,6 +149,7 @@ class App extends Component {
           gameStatus={this.state.gameStatus}
           handleCellClick={this.handleCellClick}
           handleCellMouseDown={this.handleCellMouseDown}
+          handleFlag={this.handleFlag}
         />
       </article>
     )

@@ -1,10 +1,10 @@
 import React from "react"
 
-function MineCounter() {
+function MineCounter(props) {
 
     return(
         <div>
-            000
+            {props.mines - props.minesFlagged}
         </div>
     )
 }

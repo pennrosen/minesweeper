@@ -4,7 +4,7 @@ function Grid(props) {
 
     const { columns, grid } = props
 
-    const cellStyle = (cell) => ({
+    const cellStyleVisible = (cell) => ({
         border: "1px solid #7b7b7b",
         backgroundColor: cell.isMine ? "red" : "#bdbdbd",
         boxShadow: "none" 
@@ -14,16 +14,18 @@ function Grid(props) {
 
         return (
             <div 
-                className={"cell " + (cell.col === columns ? "last-col" : "") }
+                className={"cell" + (cell.col === columns ? " last-col" : "") + ((cell.isFlagged && cell.isHidden) ? " flagged" : "")}
                 row={cell.row}
                 col={cell.col}
                 key={cell.key}
-                style={!cell.hidden ? cellStyle(cell) : null}
+                style={cell.isHidden ? null : cellStyleVisible(cell)}
                 onMouseDown={event => props.handleCellMouseDown(event, cell)}
                 onClick={event => props.handleCellClick(event, cell)}
+                onContextMenu={event => props.handleFlag(event, cell)}
             >
                 {/* {cell.value} */}
                 {cell.isMine ? "X" : cell.value}
+                {/* {cell.isFlagged ? "🚩" : cell.value} */}
             </div> 
         )
     })
