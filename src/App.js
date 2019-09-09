@@ -18,6 +18,26 @@ class App extends Component {
       grid: []
     }
 
+    this.resetGame = this.resetGame.bind(this)
+    this.handleCellMouseDown = this.handleCellMouseDown.bind(this)
+    this.handleCellClick = this.handleCellClick.bind(this)
+  }
+
+  componentDidMount() {
+    this.setState({ 
+      loading: false
+    })
+    this.initGrid()
+  }
+
+  resetGame(event) {
+    event.preventDefault()
+    console.log("game started!")
+    this.initGrid()
+  }
+
+  initGrid() {
+
     const { rows, columns, mines } = this.state
 
     // create a grid of cells 
@@ -32,7 +52,8 @@ class App extends Component {
                 hidden: true,
                 isMine: false,
                 adjacentMines: 0,
-                flagged: false
+                flagged: false,
+                value: ""
             })
         }
 
@@ -47,40 +68,42 @@ class App extends Component {
             i--
         } 
     }
-    this.state.grid = grid
-    this.resetGame = this.resetGame.bind(this)
-    this.handleCellClick = this.handleCellClick.bind(this)
-  }
 
-  componentDidMount() {
-    this.setState({ 
-      loading: false,
-      // gameStatus: "ready",
-      // grid: []
-    })
-  }
-
-  resetGame(event) {
-    event.preventDefault()
-    console.log("game started!")
     this.setState({
-      gameStarted: true,
-      secondsSinceStart: 0
+      grid: grid,
+      gameStatus: "ready"
     })
-    // TimeCounter()
+
+  }
+
+  handleCellMouseDown(event, cell) {
+      event.preventDefault()
+      let newGameStatus = this.state.gameStatus
+      if (cell.hidden) {newGameStatus = "selecting" }
+      this.setState({
+          gameStatus: newGameStatus 
+      })
   }
 
   handleCellClick(event, cell) {
       event.preventDefault()
       console.log("x: " + cell.col)
       console.log("y: " + cell.row)
+
+      let newGameStatus = this.state.gameStatus
       if (cell.isMine) {
+          newGameStatus = "lose"
           console.log("game over")
+      } else {
+        newGameStatus = "ready"
       }
+
       let newGrid = this.state.grid
       newGrid[cell.key - 1].hidden = false
+      newGrid[cell.key - 1].value = cell.key
       this.setState({
-          grid: newGrid 
+          grid: newGrid,
+          gameStatus: newGameStatus 
       })
   }
 
@@ -93,6 +116,7 @@ class App extends Component {
           />
           <ResetButton 
             resetGame={this.resetGame}
+            gameStatus={this.state.gameStatus}
           />
           <TimeCounter 
             secondsSinceStart={this.state.secondsSinceStart} 
@@ -103,7 +127,9 @@ class App extends Component {
           columns={this.state.columns}
           mines={this.state.mines}
           grid={this.state.grid}
+          gameStatus={this.state.gameStatus}
           handleCellClick={this.handleCellClick}
+          handleCellMouseDown={this.handleCellMouseDown}
         />
       </article>
     )

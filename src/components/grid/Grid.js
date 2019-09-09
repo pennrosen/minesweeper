@@ -2,7 +2,7 @@ import React from "react"
 
 function Grid(props) {
 
-    const { rows, columns, mines, grid } = props
+    const { columns, grid } = props
 
     const cellStyle = (cell) => ({
         border: "1px solid #7b7b7b",
@@ -19,11 +19,11 @@ function Grid(props) {
                 col={cell.col}
                 key={cell.key}
                 style={!cell.hidden ? cellStyle(cell) : null}
-                // onClick={() => handleCellClick(cell)}
+                onMouseDown={event => props.handleCellMouseDown(event, cell)}
                 onClick={event => props.handleCellClick(event, cell)}
             >
-                {/* {cell.key} */}
-                {cell.isMine ? "X" : ""}
+                {/* {cell.value} */}
+                {cell.isMine ? "X" : cell.value}
             </div> 
         )
     })
