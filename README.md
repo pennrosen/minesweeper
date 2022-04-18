@@ -1,7 +1,7 @@
 # minesweeper
-The classic game, built with React!
+The 90s classic, built with React!
 
-[Play here: ](https://pennrosen.github.io/minesweeper)
+[Play a game!](https://pennrosen.github.io/minesweeper)
 
 ![screenshot](screenshot.png)
 
