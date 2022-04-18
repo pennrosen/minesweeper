@@ -1,5 +1,5 @@
 # minesweeper
-The classic DOS game built with React.
+The classic game built with React.
 
 [Play here: ](https://pennrosen.github.io/minesweeper)
 
