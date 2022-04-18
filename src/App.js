@@ -123,10 +123,13 @@ class App extends Component {
 
   resetGame(event) {
     event.preventDefault()
-    console.log("game started!")
     this.initGrid()
+    this.setState({
+      minesFlagged: 0,
+      gameStatus: "ready"
+    })
   }
-
+  
   handleFlag(event, cell) {
       event.preventDefault()
       let newMinesFlagged = this.state.minesFlagged
@@ -166,6 +169,8 @@ class App extends Component {
       let newGameStatus = this.state.gameStatus
       if (cell.isMine) {
           newGameStatus = "lose"
+          // revealMines()
+          // freezeGame()
       } else {
         newGameStatus = "ready"
       }
@@ -173,20 +178,102 @@ class App extends Component {
       let newGrid = this.state.grid
       newGrid[cell.key - 1].isHidden = false
       newGrid[cell.key - 1].value = cell.adjacentMines
+      
       if (cell.adjacentMines === 0) {
-        console.log("reveal all surrounding cells")
-        newGrid[cell.key - 2].isHidden = false
-        newGrid[cell.key].isHidden = false
-        newGrid[cell.key - 2 - 9].isHidden = false
-        newGrid[cell.key - 1 - 9].isHidden = false
-        newGrid[cell.key - 9].isHidden = false
-        newGrid[cell.key - 1].isHidden = false
-        newGrid[cell.key - 1 + 8].isHidden = false
-        newGrid[cell.key - 1 + 1 + 8].isHidden = false
-        newGrid[cell.key - 1 + 2 + 8].isHidden = false
-        // console.log(newGrid[cell.key-1])
-        // console.log(Math.floor(newGrid[cell.key - 1].key % 9))
+        // reveal all surrounding cells
+        
+        const gridNum = cell.key - 1
+        const rowLength = 9
+
+        let center = newGrid[gridNum]
+        let north = newGrid[gridNum - rowLength]
+        let northEast = newGrid[gridNum - rowLength + 1]
+        let east = newGrid[gridNum + 1]
+        let southEast = newGrid[gridNum + 1 + rowLength]
+        let south = newGrid[gridNum + rowLength]
+        let southWest = newGrid[gridNum + rowLength - 1]
+        let west = newGrid[gridNum - 1]
+        let northWest = newGrid[gridNum - 1 - rowLength]
+
+        // middle of grid
+        if (cell.row > 1  && cell.row < 9 && cell.col > 1 && cell.col < 9) {
+          center.isHidden = false
+          north.isHidden = false
+          northEast.isHidden = false
+          east.isHidden = false
+          southEast.isHidden = false
+          south.isHidden = false
+          southWest.isHidden = false
+          west.isHidden = false
+          northWest.isHidden = false
+        }
+        // top row, not corners
+        if (cell.row === 1 && cell.col > 1 && cell.col < 9) {
+          center.isHidden = false
+          east.isHidden = false
+          southEast.isHidden = false
+          south.isHidden = false
+          southWest.isHidden = false
+          west.isHidden = false
+        }
+        // top row, left corner
+        if (cell.row === 1 && cell.col === 1) {
+          center.isHidden = false
+          east.isHidden = false
+          southEast.isHidden = false
+          south.isHidden = false
+        }
+        // top row, right corner
+        if (cell.row === 1 && cell.col === 9) {
+          center.isHidden = false
+          west.isHidden = false
+          southWest.isHidden = false
+          south.isHidden = false
+        }
+        // bottom row, not corners
+        if (cell.row === 9 && cell.col > 1 && cell.col < 9) {
+          center.isHidden = false
+          east.isHidden = false
+          northEast.isHidden = false
+          north.isHidden = false
+          northWest.isHidden = false
+          west.isHidden = false
+        }
+        // bottom row, left corner
+        if (cell.row === 9 && cell.col === 1) {
+          center.isHidden = false
+          east.isHidden = false
+          northEast.isHidden = false
+          north.isHidden = false
+        }
+        // bottom row, right corner
+        if (cell.row === 9 && cell.col === 9) {
+          center.isHidden = false
+          west.isHidden = false
+          northWest.isHidden = false
+          north.isHidden = false
+        }
+        // left column, not corners
+        if (cell.col === 1 && cell.row > 1 && cell.row < 9) {
+          center.isHidden = false
+          northEast.isHidden = false
+          north.isHidden = false
+          east.isHidden = false
+          southEast.isHidden = false
+          south.isHidden = false
+        }
+        // right column, not corners
+        if (cell.col === 9 && cell.row > 1 && cell.row < 9) {
+          center.isHidden = false
+          north.isHidden = false
+          northWest.isHidden = false
+          south.isHidden = false
+          southWest.isHidden = false
+          west.isHidden = false
+        }
+
       }
+
       this.setState({
           grid: newGrid,
           gameStatus: newGameStatus 

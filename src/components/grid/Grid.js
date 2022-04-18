@@ -21,7 +21,8 @@ function Grid(props) {
     })
 
     const cellStyleHidden = (cell) => ({
-        color: '#bdbdbd'
+        color: '#bdbdbd',
+        content: 'none'
     })
 
     let gameBoard = grid.map(cell => {
@@ -38,7 +39,7 @@ function Grid(props) {
                 onContextMenu={event => props.handleFlag(event, cell)}
             >
                 {/* {cell.adjacentMines} */}
-                {cell.isMine ? '' : 
+                {cell.isMine && !cell.isHidden ? '💣' : 
                  cell.adjacentMines === 0 ? '' :
                  cell.adjacentMines }
                 {/* {cell.isFlagged ? '🚩' : cell.value} */}
