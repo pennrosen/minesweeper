@@ -20,6 +20,10 @@ function Grid(props) {
         boxShadow: 'none' 
     })
 
+    const cellStyleHidden = (cell) => ({
+        color: '#bdbdbd'
+    })
+
     let gameBoard = grid.map(cell => {
 
         return (
@@ -28,13 +32,13 @@ function Grid(props) {
                 row={cell.row}
                 col={cell.col}
                 key={cell.key}
-                style={cell.isHidden ? null : cellStyleVisible(cell)}
+                style={cell.isHidden ? cellStyleHidden(cell) : cellStyleVisible(cell)}
                 onMouseDown={event => props.handleCellMouseDown(event, cell)}
                 onClick={event => props.handleCellClick(event, cell)}
                 onContextMenu={event => props.handleFlag(event, cell)}
             >
                 {/* {cell.adjacentMines} */}
-                {cell.isMine ? 'X' : 
+                {cell.isMine ? '' : 
                  cell.adjacentMines === 0 ? '' :
                  cell.adjacentMines }
                 {/* {cell.isFlagged ? '🚩' : cell.value} */}

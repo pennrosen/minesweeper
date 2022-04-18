@@ -178,8 +178,7 @@ class App extends Component {
         newGrid[cell.key - 1 + 8].isHidden = false
         newGrid[cell.key - 1 + 1 + 8].isHidden = false
         newGrid[cell.key - 1 + 2 + 8].isHidden = false
-        // console.log()
-        console.log(newGrid[cell.key-1])
+        // console.log(newGrid[cell.key-1])
         // console.log(Math.floor(newGrid[cell.key - 1].key % 9))
       }
       this.setState({
