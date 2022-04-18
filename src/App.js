@@ -47,7 +47,7 @@ class App extends Component {
                 isHidden: true,
                 isMine: false,
                 isFlagged: false,
-                adjacentMines: 0,
+                adjacentMines: 8,
                 value: ""
             })
         }
@@ -62,6 +62,56 @@ class App extends Component {
         } else {
             i--
         } 
+    }
+    
+    // set cell values
+    for (const [key, cell] of Object.entries(grid)) {
+      
+      if (cell.isMine) { 
+        cell.value = 'X' 
+      } else {
+        const x = cell.row
+        const y = cell.col
+        
+        const neighbors = {
+          'north': [x - 1, y],
+          'northEast': [x - 1, y + 1],
+          'east': [x, y + 1],
+          'southEast': [x + 1, y + 1],
+          'south': [x + 1, y],
+          'southWest': [x + 1, y - 1],
+          'west': [x, y - 1],
+          'northWest': [x - 1, y - 1],
+        }
+        
+        for (const [neighbor, coordinates] of Object.entries(neighbors)) {
+          const neighborX = coordinates[0]
+          const neighborY = coordinates[1]
+
+          for (let i = 0; i < grid.length; i++) { 
+
+            if (grid[i].row === neighborX && grid[i].col === neighborY && !grid[i].isMine) {
+              grid[i].adjacentMines--
+            }
+
+          }
+  
+        }
+        
+        // top and bottom rows
+        if ( x === 1 || x === 9 ) {cell.adjacentMines = cell.adjacentMines -3 }
+        // left and right cols
+        if ( y === 1 || y === 9 ) {cell.adjacentMines = cell.adjacentMines -3 }
+        // corners
+        if ( x === 1 && y === 1 ||
+             x === 1 && y === 9 ||
+             x === 9 && y === 1 ||
+             x === 9 && y === 9 ) {
+          cell.adjacentMines = cell.adjacentMines + 1 
+        }
+         
+      }
+      
     }
 
     this.setState({
@@ -105,8 +155,6 @@ class App extends Component {
 
   handleCellClick(event, cell) {
       event.preventDefault()
-      console.log("x: " + cell.col)
-      console.log("y: " + cell.row)
 
       let newGameStatus = this.state.gameStatus
       if (cell.isMine) {
@@ -118,7 +166,22 @@ class App extends Component {
 
       let newGrid = this.state.grid
       newGrid[cell.key - 1].isHidden = false
-      newGrid[cell.key - 1].value = cell.key
+      newGrid[cell.key - 1].value = cell.adjacentMines
+      if (cell.adjacentMines === 0) {
+        console.log("reveal all surrounding cells")
+        newGrid[cell.key - 2].isHidden = false
+        newGrid[cell.key].isHidden = false
+        newGrid[cell.key - 2 - 9].isHidden = false
+        newGrid[cell.key - 1 - 9].isHidden = false
+        newGrid[cell.key - 9].isHidden = false
+        newGrid[cell.key - 1].isHidden = false
+        newGrid[cell.key - 1 + 8].isHidden = false
+        newGrid[cell.key - 1 + 1 + 8].isHidden = false
+        newGrid[cell.key - 1 + 2 + 8].isHidden = false
+        // console.log()
+        console.log(newGrid[cell.key-1])
+        // console.log(Math.floor(newGrid[cell.key - 1].key % 9))
+      }
       this.setState({
           grid: newGrid,
           gameStatus: newGameStatus 
