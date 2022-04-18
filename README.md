@@ -18,7 +18,7 @@ The classic game, built with React!
 - [x] Reveal neighbors on empty cell click.
 - [ ] Reveal remaining mines on game over.
 - [ ] Freeze user's interaction with grid on game over / win.
-- [ ] Right-click "quick mode".
+- [ ] "Quick mode" (reveal safe surrounding cells on right click).
 - [ ] Reveal all connected empty cells.
 - [x] Facial expressions :)
 - [ ] Record high score.

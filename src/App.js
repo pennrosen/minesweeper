@@ -169,20 +169,19 @@ class App extends Component {
       let newGameStatus = this.state.gameStatus
       if (cell.isMine) {
           newGameStatus = "lose"
-          // revealMines()
-          // freezeGame()
+          // TODO: revealMines()
+          // TODO: freezeGame()
       } else {
         newGameStatus = "ready"
       }
 
       let newGrid = this.state.grid
-      newGrid[cell.key - 1].isHidden = false
-      newGrid[cell.key - 1].value = cell.adjacentMines
+      const gridNum = cell.key - 1
+      newGrid[gridNum].isHidden = false
+      newGrid[gridNum].value = cell.adjacentMines
       
       if (cell.adjacentMines === 0) {
         // reveal all surrounding cells
-        
-        const gridNum = cell.key - 1
         const rowLength = 9
 
         let center = newGrid[gridNum]

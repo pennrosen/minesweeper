@@ -38,11 +38,9 @@ function Grid(props) {
                 onClick={event => props.handleCellClick(event, cell)}
                 onContextMenu={event => props.handleFlag(event, cell)}
             >
-                {/* {cell.adjacentMines} */}
                 {cell.isMine && !cell.isHidden ? '💣' : 
                  cell.adjacentMines === 0 ? '' :
                  cell.adjacentMines }
-                {/* {cell.isFlagged ? '🚩' : cell.value} */}
             </div> 
         )
     })
