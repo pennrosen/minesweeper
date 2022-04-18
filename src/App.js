@@ -138,9 +138,16 @@ class App extends Component {
         newGrid[cell.key - 1].isFlagged = true
         newMinesFlagged++
       }
+      
+      let newGameStatus = this.state.gameStatus
+      if (newMinesFlagged === 10) {
+        newGameStatus = "win"
+      }
+      
       this.setState({
           grid: newGrid,
-          minesFlagged: newMinesFlagged
+          minesFlagged: newMinesFlagged,
+          gameStatus: newGameStatus 
       })
   }
 
@@ -159,7 +166,6 @@ class App extends Component {
       let newGameStatus = this.state.gameStatus
       if (cell.isMine) {
           newGameStatus = "lose"
-          console.log("game over")
       } else {
         newGameStatus = "ready"
       }

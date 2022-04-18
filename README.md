@@ -10,12 +10,13 @@ The classic game built with React.
 ### TODO
 
 - [ ] Choose between three different difficulty levels.
+- [x] Mines left.
 - [ ] Timer.
-- [ ] Mines left.
-- [ ] Set flags with right click.
+- [x] Set flags with right click.
+- [ ] Catch flagging errors.
+- [ ] Reveal remaining mines on game over.
 - [ ] Quick mode.
-- [ ] Settings save in cookie.
-- [ ] Generate non-guessing game.
+- [x] Facial expressions
 - [ ] Record high score.
 - [ ] First click never reveals a mine.
 - [ ] Mobile friendly.
